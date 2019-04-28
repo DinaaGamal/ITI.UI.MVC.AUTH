@@ -1,0 +1,136 @@
+﻿@model EmployeeViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*@
+@*@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+{
+<a href="/empolyees/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus">Add New Empolyee</span></a>
+
+}*@
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <span class="glyphicon glyphicon-plus">Add New Empolyee</span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm(ViewBag.Action as string, "Empolyees", FormMethod.Post, new { id = "add-form" }))
+            {
+            <div class="modal-body">
+                    @if(ViewBag.Action == "Edit")
+                    {
+                        @Html.HiddenFor(m => m.Empolyee.Id)
+
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Empolyee.Name);
+                        @Html.TextBoxFor(m => m.Empolyee.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Empolyee.Name)
+                    </div>
+
+                    <div class="form-group">
+                        <label>Department</label>
+                        @Html.DropDownListFor(m => m.Empolyee.FK_DepartmentId, new SelectList(Model.Departments, "Id", "Name"), "Select Department", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Empolyee.FK_DepartmentId)
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        @Html.TextBoxFor(m => m.Empolyee.Age, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Empolyee.Age)
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        @Html.EditorFor(m => m.Empolyee.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Empolyee.Email)
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gender</label>
+                        @Html.EnumDropDownListFor(m => m.Empolyee.Gender, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Empolyee.Gender)
+                    </div>
+
+                  
+
+
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="@ViewBag.Action" class="btn btn-primary"/>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="cancel()">Cancel</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+@*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*@
+@if (Model == null || Model.Employees == null ||Model.Employees.Count == 0)
+{
+    <h4>No Empolyees Found</h4>
+}
+else
+{
+    <table class="table table-hover table-striped">
+
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var Emp in Model.Employees)
+            {
+                <tr id="@Emp.Id">
+                    <td>@Emp.Name</td>
+                    <td>@Emp.Age</td>
+                    <td>@Emp.Department.Name</td>
+
+                    <td>@Emp.Email</td>
+                    <td>@Emp.Gender</td>
+                    <td>
+                        @Html.Partial("_PartialControlButtons", Emp.Id)
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+}
+@section scripts {
+
+    <script src="~/Scripts/SiteScripts/ConfirmDeleteEmp.js"></script>
+    <script src="~/Scripts/SiteScripts/modal.js"></script>
+}

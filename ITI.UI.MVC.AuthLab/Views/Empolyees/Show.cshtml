@@ -1,0 +1,50 @@
+﻿@model  ITI.UI.MVC.AuthLab.Models.Entities.Empolyee
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Empolyee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(e => e.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(e => e.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(e => e.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(e => e.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(e => e.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(e => e.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(e => e.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(e => e.Gender)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

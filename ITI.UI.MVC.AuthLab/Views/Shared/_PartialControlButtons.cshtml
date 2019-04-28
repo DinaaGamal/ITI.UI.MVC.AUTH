@@ -1,0 +1,22 @@
+﻿@model int?
+
+
+@{ 
+    var controllerName = this.ViewContext.RouteData.Values["Controller"].ToString();
+}
+@Html.ActionLink("Details", "Show", new { id = @Model }, new { @class = "btn btn-primary btn-sm" })
+
+@if  (User.IsInRole("Admin"))
+{
+@Html.ActionLink("Edit", "Edit", new { id = @Model }, new { @class = "btn btn-success btn-sm" })
+<input type="button" value="Delete" class="btn btn-danger btn-sm" onclick="ConfirmDelete(@Model)" />
+
+}
+
+else if (User.IsInRole("Manager") && controllerName == "Empolyees")
+{
+    @Html.ActionLink("Edit", "Edit", new { id = @Model }, new { @class = "btn btn-success btn-sm" })
+    <input type="button" value="Delete" class="btn btn-danger btn-sm" onclick="ConfirmDelete(@Model)" />
+}
+
+
